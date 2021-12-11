@@ -11,11 +11,11 @@ function showInfo(marcacaoUnitaria) {
         let corElemento = elemento.getAttribute("data-cor");
         
         // Diretrizes em https://fegemo.github.io/cefet-web/classes/js4/#7
-        balaozinho.style.backgroundColor = corElemento;
+        balaozinho.style.color = corElemento;
 
         // Conforme orientado no readme. Diretrizes em https://fegemo.github.io/cefet-web/classes/js3/#8
         balaozinho.innerHTML = `<h2>${tituloDoElemento}</h2>` ;
-        balaozinho.innerHTML = balaozinho.innerHTML + `<h2>${conteudoDoElemento}</h2>`;
+        balaozinho.innerHTML = balaozinho.innerHTML + `<p>${conteudoDoElemento}<p>`;
     });
     marcacaoUnitaria.addEventListener('mouseout', function(event) {
         // Dica dada no FAQ
@@ -26,7 +26,7 @@ function showInfo(marcacaoUnitaria) {
         let valorY = parseInt(event.pageY);
         balaozinho.style.left =  valorX+ 'px';
         balaozinho.style.top =  valorY+ 'px';
-        console.log(`valor X: ${valorX} | valorY: ${valorY}`);
+        //console.log(`valor X: ${valorX} | valorY: ${valorY}`);
     });
 };
 
