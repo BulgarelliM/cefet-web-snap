@@ -1,20 +1,18 @@
 let checkboxStatus = document.querySelector('#visibilidade-das-marcacoes');
 let marcacoes = document.querySelectorAll('.marcacao');
-
+let inputsSelecionados = document.querySelectorAll ('input');
 marcacoes.forEach(atualizaControles);
-
+const formato = 'formato-oval';
 // Sempre que o status mudar, o evento e acionado
 // Diretrizes em https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event
 checkboxStatus.addEventListener('change', (e) => {
     let status = e.target.checked;
-    console.log('status '+status);
     if (status){
       // Oculta marcacoes
       let marcacoes = document.querySelector('body');
       marcacoes.classList.add("marcacoes-ocultas");
     }
     else{
-      console.log('com marcacoes');
       let marcacoes = document.querySelector('.marcacoes-ocultas');
       marcacoes.classList.remove("marcacoes-ocultas");
     }
@@ -29,7 +27,6 @@ function atualizaControles(marcacaoTodas) {
     };
     let marcacao = event.currentTarget;
     marcacao.classList.add('selecionada');
-    console.log(marcacao.classList);
 
     // Pega valores
     let marcacaoX = parseInt((marcacao.style.left).substring(0,(marcacao.style.left).length - 2));
@@ -40,7 +37,7 @@ function atualizaControles(marcacaoTodas) {
     let marcacaoConteudo = marcacao.getAttribute("data-conteudo");
     let marcacaoCor = marcacao.getAttribute("data-cor");
     
-    if (marcacao.classList.contains('.formato-oval')){
+    if (marcacao.classList.contains('formato-oval')){
       let radios = document.getElementsByName("formato-da-marcacao");
       for (let i = 0; i < radios.length; i++) {
         if(radios[i].value == 'formato-oval'){
@@ -52,6 +49,7 @@ function atualizaControles(marcacaoTodas) {
       };
     }
     else{
+      marcacao.classList.add('formato-retangular');
       let radios = document.getElementsByName("formato-da-marcacao");
       for (let i = 0; i < radios.length; i++) {
         radios[i].checked = (radios[i].value == 'formato-oval') ? false:true;
@@ -74,3 +72,57 @@ function atualizaControles(marcacaoTodas) {
     corMarcacao.value = marcacaoCor;
   });
 }
+
+inputsSelecionados.forEach(changes);
+function changes (campo){
+  campo.addEventListener('change', function(evt) { 
+    let marcacaoSelect = document.querySelector('.marcacao.selecionada');
+    let elemento = evt.currentTarget;
+
+    let xMarcacao = document.querySelector('#x-da-marcacao');
+    let yMarcacao = document.querySelector('#y-da-marcacao');
+    let larguraMarcacao = document.querySelector('#largura-da-marcacao');
+    let alturaMarcacao = document.querySelector('#altura-da-marcacao');
+    let tituloMarcacao = document.querySelector('#titulo-da-marcacao');
+    let corMarcacao = document.querySelector('#cor-da-marcacao');
+
+    marcacaoSelect.style.left = `${parseInt(xMarcacao.value)}px`;
+    marcacaoSelect.style.top = `${parseInt(yMarcacao.value)}px`;
+    marcacaoSelect.style.width = `${parseInt(larguraMarcacao.value)}px`;
+    marcacaoSelect.style.height = `${parseInt(alturaMarcacao.value)}px`;
+    marcacaoSelect.setAttribute('data-titulo', tituloMarcacao.value);
+    marcacaoSelect.setAttribute('data-cor',corMarcacao.value);
+   
+    if (elemento.hasAttribute("name")){
+      elemento.checked=true;
+      let todos = document.getElementsByName("formato-da-marcacao");
+      for (let i = 0; i < todos.length; i++) {
+        if(todos[i].value != elemento.value){
+          todos[i].checked=false;
+        }
+      }
+
+      if (marcacaoSelect.classList.contains('formato-retangular')){
+        if(elemento.value == 'formato-oval'){
+          marcacaoSelect.classList.add('formato-oval');
+          marcacaoSelect.classList.remove('formato-retangular');
+          marcacaoSelect.setAttribute('data-formato', elemento.value);
+        }
+      }
+      if (marcacaoSelect.classList.contains('formato-oval')){
+        if(elemento.value == 'formato-retangular'){
+          marcacaoSelect.classList.remove('formato-oval');
+          marcacaoSelect.classList.add('formato-retangular');
+          marcacaoSelect.setAttribute('data-formato', elemento.value);
+        }
+      }
+    }
+  });
+};
+
+let conteudoDaMarcacao = document.querySelector('#conteudo-da-marcacao');
+
+conteudoDaMarcacao.addEventListener('change', (e) => {
+    let marcacaoSelect = document.querySelector('.marcacao.selecionada');
+    marcacaoSelect.setAttribute('data-conteudo',e.currentTarget.value);
+});
