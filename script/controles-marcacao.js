@@ -86,13 +86,16 @@ function changes (campo){
     let tituloMarcacao = document.querySelector('#titulo-da-marcacao');
     let corMarcacao = document.querySelector('#cor-da-marcacao');
 
+    // diretrizes em: https://fegemo.github.io/cefet-web/classes/js4/#alterando-o-estilo-de-elementos 
+    // https://developer.mozilla.org/pt-BR/docs/Web/API/Element/setAttribute
     marcacaoSelect.style.left = `${parseInt(xMarcacao.value)}px`;
     marcacaoSelect.style.top = `${parseInt(yMarcacao.value)}px`;
     marcacaoSelect.style.width = `${parseInt(larguraMarcacao.value)}px`;
     marcacaoSelect.style.height = `${parseInt(alturaMarcacao.value)}px`;
     marcacaoSelect.setAttribute('data-titulo', tituloMarcacao.value);
     marcacaoSelect.setAttribute('data-cor',corMarcacao.value);
-   
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/Element/hasAttribute
     if (elemento.hasAttribute("name")){
       elemento.checked=true;
       let todos = document.getElementsByName("formato-da-marcacao");
